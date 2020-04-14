@@ -15,13 +15,13 @@ The following fabric network characteristics should be built:
 ## Steps to start the network
 
 ```bash
-# we create the network artifacts
+# create the network artifacts
 ./generateArtifacts.sh
 
-# open terminal 1 and start the docker-composition
+# open terminal 1 - start the network
 docker-compose up
 
-# open terminal 2 - show that the network is running
+# open terminal 2 - check if the network is running
 docker-compose ps
 
           Name                 Command       State                       Ports
