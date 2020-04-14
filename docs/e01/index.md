@@ -1,7 +1,7 @@
 ## Example 01 - one org network
 ![OneOrgNetwork](../../img/HSC-e1.png)
 
-The following fabric-network characteristics should be build:
+The following fabric network characteristics should be built:
 
 - a single organization
 - one channel
