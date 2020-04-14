@@ -1,4 +1,10 @@
 # Example 01 - one org network
+## ToDos
+- explanations regarding requirements
+- explanations how to generate the artifacts
+- install chaincode
+- do some queries
+
 ![OneOrgNetwork](../../img/HSC-e1.png)
 
 The following fabric network characteristics should be built:
