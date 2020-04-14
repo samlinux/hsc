@@ -8,4 +8,4 @@ Two folders have to be highlighted:
 The docs folder includes the documentation and the examples folder includes the necessary configuration files for the given example.
 
 ## The following examples are currently available:
-- [e01; one org network, two peers, one cli, solo orderer, predefined sacc chaincode](docs/e01/index.md)
+- [e01; a simple OneOrgNetwork](docs/e01/index.md)
