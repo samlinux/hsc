@@ -95,7 +95,6 @@ exit
 # install the chaincode on peer0
 docker exec -e "CORE_PEER_ADDRESS=peer0.mars.universe.at:7051" cli peer chaincode install -n sacc -v 1.0 -p sacc
 docker exec -e "CORE_PEER_ADDRESS=peer0.mars.universe.at:7051" cli peer chaincode list --installed
-````
 
 # instantiate the chaincode (only on peer0)
 docker exec -e "CORE_PEER_ADDRESS=peer0.mars.universe.at:7051" cli peer chaincode instantiate -n sacc -v 1.0 -o solo.orderer.universe.at:7050 -C channel1  -c '{"Args":["msg","hello blockchain"]}'
