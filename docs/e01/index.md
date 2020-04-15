@@ -3,8 +3,6 @@
 - explanations regarding setup
 - explanations regarding requirements
 - explanations how to generate the artifacts
-- install chaincode
-- do some queries
 
 ![OneOrgNetwork](../../img/HSC-e1.png)
 
@@ -14,9 +12,9 @@ The following fabric network characteristics should be built:
 - two peers, done
 - one cli, done
 - solo as ordering service, done
-- one channel
-- predefined sacc chaincode
-- without TLS
+- one channel, done
+- predefined sacc chaincode, done
+- without TLS, done
 
 ## Overview - important steps
 1. Create crypto materials
