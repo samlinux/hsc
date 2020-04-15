@@ -29,7 +29,7 @@ services:
       file: ./peer.yaml
       service: peer
     environment:
-      - CORE_PEER_ID= peer0.mars.universe.at
+      - CORE_PEER_ID=peer0.mars.universe.at
       - CORE_PEER_ADDRESS= peer0.mars.universe.at:7051
       - CORE_PEER_LOCALMSPID=MarsMSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
@@ -53,7 +53,7 @@ services:
       file: ./peer.yaml
       service: peer
     environment:
-      - CORE_PEER_ID= peer1.mars.universe.at
+      - CORE_PEER_ID=peer1.mars.universe.at
       - CORE_PEER_ADDRESS= peer1.mars.universe.at:7051
       - CORE_PEER_LOCALMSPID=MarsMSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
@@ -88,6 +88,8 @@ services:
     command: /bin/bash
     volumes:
         - /var/run/:/host/var/run/
+        - ./chaincode/:/opt/gopath/src/
+        - ./chaincode/:/var/hyperledger/production/chaincode
         - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
         - ./config:/opt/gopath/src/github.com/hyperledger/fabric/peer/config/
     networks:
