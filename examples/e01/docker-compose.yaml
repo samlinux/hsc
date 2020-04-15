@@ -46,6 +46,30 @@ services:
       - solo.orderer.universe.at
     networks:
       - universe
+  
+  peer1.mars.universe.at:
+    container_name: peer1.mars.universe.at
+    extends:
+      file: ./peer.yaml
+      service: peer
+    environment:
+      - CORE_PEER_ID= peer1.mars.universe.at
+      - CORE_PEER_ADDRESS= peer1.mars.universe.at:7051
+      - CORE_PEER_LOCALMSPID=MarsMSP
+      - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT= peer0.mars.universe.at:7051
+    volumes:
+      - ./crypto-config/peerOrganizations/mars.universe.at/peers/peer1.mars.universe.at/msp:/etc/hyperledger/msp/peer
+      - ./crypto-config/peerOrganizations/mars.universe.at/users:/etc/hyperledger/msp/users
+      - ./config/channel.tx:/etc/hyperledger/configtx/channel.tx
+      
+    ports:
+      - 8051:7051
+      - 8053:7053
+    depends_on:
+      - solo.orderer.universe.at
+    networks:
+      - universe  
 
   cli:
     container_name: cli
@@ -71,3 +95,4 @@ services:
     depends_on:
       - solo.orderer.universe.at
       - peer0.mars.universe.at
+      - peer1.mars.universe.at

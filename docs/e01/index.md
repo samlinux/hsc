@@ -1,5 +1,6 @@
 # Example 01 - one org network
 ## ToDos
+- explanations regarding setup
 - explanations regarding requirements
 - explanations how to generate the artifacts
 - install chaincode
@@ -9,11 +10,11 @@
 
 The following fabric network characteristics should be built:
 
-- a single organization
+- a single organization, done
+- two peers, done
+- one cli, done
+- solo as ordering service, done
 - one channel
-- two peers
-- one cli
-- solo as ordering service
 - predefined sacc chaincode
 - without TLS
 
@@ -34,6 +35,7 @@ docker-compose ps
 ---------------------------------------------------------------------------------------------------
 cli                        /bin/bash         Up
 peer0.mars.universe.at     peer node start   Up      0.0.0.0:7051->7051/tcp, 0.0.0.0:7053->7053/tcp
+peer1.mars.universe.at     peer node start   Up      0.0.0.0:8051->7051/tcp, 0.0.0.0:8053->7053/tcp
 solo.orderer.universe.at   orderer           Up      0.0.0.0:7050->7050/tcp
 
 
