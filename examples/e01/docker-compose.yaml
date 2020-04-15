@@ -89,7 +89,7 @@ services:
     volumes:
         - /var/run/:/host/var/run/
         - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        - ./config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto-config/
+        - ./config:/opt/gopath/src/github.com/hyperledger/fabric/peer/config/
     networks:
         - universe
     depends_on:

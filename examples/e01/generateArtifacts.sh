@@ -4,8 +4,8 @@ export FABRIC_CFG_PATH=${PWD}
 CHANNEL_NAME=channel1
 
 # remove previous crypto material and config transactions
-rm -fr config/*
-rm -fr crypto-config/*
+sudo rm -fr config/*
+sudo rm -fr crypto-config/*
 
 # generate crypto material
 cryptogen generate --config=./crypto-config.yaml

@@ -44,7 +44,7 @@ Organizations:
       # of the fabric.git development environment
       Name: MarsMSP
 
-      # ID to AthenMSP the MSP definition as
+      # ID to MarsMSP the MSP definition as
       ID: MarsMSP
 
       MSPDir: crypto-config/peerOrganizations/mars.universe.at/msp
