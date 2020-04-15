@@ -28,6 +28,9 @@ The following fabric network characteristics should be built:
 # open terminal 1 - start the network
 docker-compose up
 
+# start the network in the background
+docker-compose up -d 
+
 # open terminal 2 - check if the network is running
 docker-compose ps
 
