@@ -1,7 +1,7 @@
 # Example 01 - one org network
 
 ## Extensions
-- [e01.1 - fabric-ca](docs/e01/e01.1.md)
+- [e01.1 - fabric-ca](e01.1.md)
 
 ## ToDos
 - explanations regarding setup
