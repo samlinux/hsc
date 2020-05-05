@@ -1,0 +1,107 @@
+version: "3.3"
+
+networks:
+  alpha:
+
+services:
+  orderer.alpha.at:
+    container_name: orderer.alpha.at
+    image: hyperledger/fabric-orderer:1.4.4
+    environment:
+      - ORDERER_HOME=/tmp/hyperledger/orderer
+      - ORDERER_HOST=orderer.alpha.at
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/tmp/hyperledger/orderer.alpha.at/orderer/genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/tmp/hyperledger/orderer.alpha.at/orderer/msp
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/tmp/hyperledger/orderer.alpha.at/orderer/tls-msp/signcerts/cert.pem
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/tmp/hyperledger/orderer.alpha.at/orderer/tls-msp/keystore/key.pem
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/tmp/hyperledger/orderer.alpha.at/orderer/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem]
+      - ORDERER_GENERAL_LOGLEVEL=debug
+      - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
+      - FABRIC_LOGGING_SPEC=debug
+    volumes:
+      - ./network/orderer.alpha.at/orderer:/tmp/hyperledger/orderer.alpha.at/orderer/
+    networks:
+      - alpha
+
+  peer0.mars.alpha.at:
+    container_name: peer0.mars.alpha.at
+    image: hyperledger/fabric-peer:1.4.4
+    environment:
+      - CORE_PEER_ID=peer0.mars.alpha.at
+      - CORE_PEER_ADDRESS=peer0.mars.alpha.at:7051
+      - CORE_PEER_LOCALMSPID=marsMSP
+      - CORE_PEER_MSPCONFIGPATH=/tmp/hyperledger/mars.alpha.at/peer0/msp
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=e014_alpha
+      - FABRIC_LOGGING_SPEC=debug
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/tmp/hyperledger/mars.alpha.at/peer0/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/tmp/hyperledger/mars.alpha.at/peer0/tls-msp/keystore/key.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/tmp/hyperledger/mars.alpha.at/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.mars.alpha.at:7051
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/mars.alpha.at/peer0
+    volumes:
+      - /var/run:/host/var/run
+      - ./network/mars.alpha.at/peers/peer0:/tmp/hyperledger/mars.alpha.at/peer0
+    networks:
+      - alpha
+    depends_on:
+      - orderer.alpha.at
+
+  peer1.mars.alpha.at:
+    container_name: peer1.mars.alpha.at
+    image: hyperledger/fabric-peer:1.4.4
+    environment:
+      - CORE_PEER_ID=peer1.mars.alpha.at
+      - CORE_PEER_ADDRESS=peer1.mars.alpha.at:7051
+      - CORE_PEER_LOCALMSPID=marsMSP
+      - CORE_PEER_MSPCONFIGPATH=/tmp/hyperledger/mars.alpha.at/peer1/msp
+      - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
+      - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=e014_alpha
+      - FABRIC_LOGGING_SPEC=debug
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_CERT_FILE=/tmp/hyperledger/mars.alpha.at/peer1/tls-msp/signcerts/cert.pem
+      - CORE_PEER_TLS_KEY_FILE=/tmp/hyperledger/mars.alpha.at/peer1/tls-msp/keystore/key.pem
+      - CORE_PEER_TLS_ROOTCERT_FILE=/tmp/hyperledger/mars.alpha.at/peer1/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_GOSSIP_USELEADERELECTION=true
+      - CORE_PEER_GOSSIP_ORGLEADER=false
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.mars.alpha.at:7051
+      - CORE_PEER_GOSSIP_SKIPHANDSHAKE=true
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/mars.alpha.at/peer1
+    volumes:
+      - /var/run:/host/var/run
+      - ./network/mars.alpha.at/peers/peer1:/tmp/hyperledger/mars.alpha.at/peer1
+    networks:
+      - alpha
+    depends_on:
+      - orderer.alpha.at
+  
+  cli-mars.alpha.at:
+    container_name: cli-mars.alpha.at
+    image: hyperledger/fabric-tools:1.4.4
+    tty: true
+    stdin_open: true
+    environment:
+      - GOPATH=/opt/gopath
+      - FABRIC_LOGGING_SPEC=DEBUG
+      - CORE_PEER_ID=cli-mars.alpha.at
+      - CORE_PEER_ADDRESS=peer0.mars.alpha.at:7051
+      - CORE_PEER_LOCALMSPID=marsMSP
+      - CORE_PEER_TLS_ENABLED=true
+      - CORE_PEER_TLS_ROOTCERT_FILE=/tmp/hyperledger/mars.alpha.at/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+      - CORE_PEER_MSPCONFIGPATH=/tmp/hyperledger/mars.alpha.at/admin/msp
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric/mars.alpha.at
+    command: sh
+    volumes:
+      - ./network/mars.alpha.at/peers/:/tmp/hyperledger/mars.alpha.at/peers
+      - ./chaincode:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
+      - ./network/mars.alpha.at/admin:/tmp/hyperledger/mars.alpha.at/admin
+    networks:
+      - alpha
