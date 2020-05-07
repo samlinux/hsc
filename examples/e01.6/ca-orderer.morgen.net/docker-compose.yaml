@@ -1,0 +1,22 @@
+version: "3.3"
+
+networks:
+  morgen:
+
+services:
+  ca-orderer.morgen.net:
+    container_name: ca-orderer.morgen.net
+    image: hyperledger/fabric-ca:1.4.4
+    command: /bin/bash -c 'fabric-ca-server start -d -b ca-orderer.morgen.net-admin:ca-orderer-adminpw --port 7053'
+    environment:
+      - FABRIC_CA_SERVER_HOME=/tmp/hyperledger/fabric-ca/crypto
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_CSR_CN=ca-orderer.morgen.net
+      - FABRIC_CA_SERVER_CSR_HOSTS=0.0.0.0
+      - FABRIC_CA_SERVER_DEBUG=true
+    volumes:
+      - ./ca/server:/tmp/hyperledger/fabric-ca
+    networks:
+      - morgen
+    ports:
+      - 7053:7053
