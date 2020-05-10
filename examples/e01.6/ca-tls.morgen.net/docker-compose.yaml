@@ -7,7 +7,7 @@ services:
   ca-tls.morgen.net:
     container_name: ca-tls.morgen.net
     image: hyperledger/fabric-ca:1.4.4
-    command: sh -c 'fabric-ca-server start -d -b ca-tls.morgen.net-admin:ca-tls.morgen.net-adminpw --port 7052'
+    command: sh -c 'fabric-ca-server start -b ca-tls.morgen.net-admin:ca-tls.morgen.net-adminpw --port 7052'
     environment:
       - FABRIC_CA_SERVER_HOME=/tmp/hyperledger/fabric-ca/crypto
       - FABRIC_CA_SERVER_TLS_ENABLED=true
