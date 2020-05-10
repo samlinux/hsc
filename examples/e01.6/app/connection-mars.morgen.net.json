@@ -1,0 +1,59 @@
+{
+  "name": "mars-app",
+  "version": "1.0.0",
+  "client": {
+    "organization": "mars",
+    "connection": {
+      "timeout": {
+        "peer": {
+            "endorser": "300"
+        }
+      }
+    }
+  },
+  "organizations": {
+    "mars": {
+      "mspid": "marsMSP",
+      "peers": [
+          "peer0.mars.morgen.net",
+          "peer1.mars.morgen.net"
+      ],
+      "certificateAuthorities": [
+          "ca-mars.morgen.net"
+      ]
+    }
+  },
+  "peers": {
+    "peer0.mars.morgen.net": {
+      "url": "grpcs://localhost:7051",
+      "tlsCACerts": {
+          "path": "../ca-mars.morgen.net/msp/tlscacerts/tls-ca-cert.pem"
+      },
+      "grpcOptions": {
+          "ssl-target-name-override": "peer0.mars.morgen.net"
+      }
+    },
+    "peer1.mars.morgen.net": {
+      "url": "grpcs://localhost:8051",
+      "tlsCACerts": {
+        "path": "../ca-mars.morgen.net/msp/tlscacerts/tls-ca-cert.pem"
+      },
+      "grpcOptions": {
+          "ssl-target-name-override": "peer1.mars.network.net"
+      }
+    }
+  },
+  "certificateAuthorities": {
+      "ca-mars.morgen.net": {
+        "url": "https://localhost:7054",
+        "caName": "ca-mars.morgen.net",
+        "tlsCACerts": {
+          "path": "../ca-mars.morgen.net/msp/tlscacerts/tls-ca-cert.pem"
+        },
+        "httpOptions": {
+            "verify": false
+        }
+      }
+  }
+}
+
