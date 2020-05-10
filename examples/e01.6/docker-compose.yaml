@@ -27,6 +27,8 @@ services:
       - ./ca-orderer.morgen.net/orderer/production:/var/hyperledger/production
     networks:
       - morgen
+    ports:
+      - 7050:7050
 
   peer0.mars.morgen.net:
     container_name: peer0.mars.morgen.net
@@ -57,6 +59,9 @@ services:
       - morgen
     depends_on:
       - orderer.morgen.net
+    ports:
+      - 7051:7051
+
 
   peer1.mars.morgen.net:
     container_name: peer1.mars.morgen.net
@@ -87,6 +92,8 @@ services:
       - morgen
     depends_on:
       - orderer.morgen.net
+    ports:
+      - 8051:7051
   
   cli-mars.morgen.net:
     container_name: cli-mars.morgen.net
