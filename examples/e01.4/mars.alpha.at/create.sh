@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## -------------------
-## setup CA
+## (1) setup CA
 ## -------------------
 
 mkdir -p ca/server
@@ -22,7 +22,11 @@ fabric-ca-client register -d --id.name peer1.mars.alpha.at --id.secret peer1PW -
 fabric-ca-client register -d --id.name admin-mars.alpha.at --id.secret marsAdminPW --id.type admin -u https://0.0.0.0:7054
 fabric-ca-client register -d --id.name user-mars.alpha.at --id.secret marsUserPW --id.type user -u https://0.0.0.0:7054
 
-## setup admin
+
+## -------------------
+## (2) setup admin
+## -------------------
+
 mkdir  -p admin/ca
 cp ./ca/server/crypto/ca-cert.pem ./admin/ca/mars.alpha.at-ca-cert.pem
 
@@ -42,11 +46,11 @@ cp ./admin/msp/signcerts/cert.pem ./peers/peer1/msp/admincerts/mars.alpha.at-adm
 cp ./admin/msp/signcerts/cert.pem ./admin/msp/admincerts/mars.alpha.at-admin-cert.pem
 
 ## -------------------
-## setup peers
+## (3) setup peers
 ## -------------------
 
 mkdir -p peers/peer0/assets/ca
-mkdir  peers/peer0/assets/tls-ca
+mkdir peers/peer0/assets/tls-ca
 
 #copying  org1 root certificate to peer0-org1
 cp ./ca/server/crypto/ca-cert.pem ./peers/peer0/assets/ca/mars.alpha.at-ca-cert.pem
@@ -129,4 +133,22 @@ NodeOUs:
     OrganizationalUnitIdentifier: admin
   OrdererOUIdentifier:
     Certificate: cacerts/mars.alpha.at-ca-cert.pem
+    OrganizationalUnitIdentifier: orderer
+
+
+vi admin/msp/config.yaml
+
+NodeOUs:
+  Enable: true
+  ClientOUIdentifier:
+    Certificate: cacerts/0-0-0-0-7054.pem
+    OrganizationalUnitIdentifier: client
+  PeerOUIdentifier:
+    Certificate: cacerts/0-0-0-0-7054.pem
+    OrganizationalUnitIdentifier: peer
+  AdminOUIdentifier:
+    Certificate: cacerts/0-0-0-0-7054.pem
+    OrganizationalUnitIdentifier: admin
+  OrdererOUIdentifier:
+    Certificate: cacerts/0-0-0-0-7054.pem
     OrganizationalUnitIdentifier: orderer

@@ -5,7 +5,7 @@ mkdir -p ca/server/crypto
 mkdir -p ca/client/crypto
 
 # starts the tls-ca server
-docker-compose up
+docker-compose up -d
 
 #copys the tls-CA server root ceritficate to tls-ca client for tls authentication
 cp ./ca/server/crypto/ca-cert.pem  ./ca/client/crypto/ca-tls.alpha.at.cert.pem
@@ -19,4 +19,4 @@ fabric-ca-client enroll -d -u https://ca-tls.alpha.at-admin:ca-tls.alpha.at-admi
 
 fabric-ca-client register -d --id.name peer0.mars.alpha.at --id.secret peer0PW --id.type peer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name peer1.mars.alpha.at --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
-fabric-ca-client register -d --id.name orderer.alpha.at --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+fabric-ca-client register -d --id.name solo.orderer.alpha.at --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052

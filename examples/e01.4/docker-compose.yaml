@@ -4,12 +4,12 @@ networks:
   alpha:
 
 services:
-  orderer.alpha.at:
-    container_name: orderer.alpha.at
+  solo.orderer.alpha.at:
+    container_name: solo.orderer.alpha.at
     image: hyperledger/fabric-orderer:1.4.4
     environment:
       - ORDERER_HOME=/tmp/hyperledger/orderer
-      - ORDERER_HOST=orderer.alpha.at
+      - ORDERER_HOST=solo.orderer.alpha.at
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/tmp/hyperledger/orderer.alpha.at/orderer/genesis.block
@@ -23,7 +23,7 @@ services:
       - ORDERER_DEBUG_BROADCASTTRACEDIR=data/logs
       - FABRIC_LOGGING_SPEC=debug
     volumes:
-      - ./network/orderer.alpha.at/orderer:/tmp/hyperledger/orderer.alpha.at/orderer/
+      - ./orderer.alpha.at/orderer:/tmp/hyperledger/orderer.alpha.at/orderer/
     networks:
       - alpha
 
@@ -49,11 +49,11 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/mars.alpha.at/peer0
     volumes:
       - /var/run:/host/var/run
-      - ./network/mars.alpha.at/peers/peer0:/tmp/hyperledger/mars.alpha.at/peer0
+      - ./mars.alpha.at/peers/peer0:/tmp/hyperledger/mars.alpha.at/peer0
     networks:
       - alpha
     depends_on:
-      - orderer.alpha.at
+      - solo.orderer.alpha.at
 
   peer1.mars.alpha.at:
     container_name: peer1.mars.alpha.at
@@ -77,11 +77,11 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/mars.alpha.at/peer1
     volumes:
       - /var/run:/host/var/run
-      - ./network/mars.alpha.at/peers/peer1:/tmp/hyperledger/mars.alpha.at/peer1
+      - ./mars.alpha.at/peers/peer1:/tmp/hyperledger/mars.alpha.at/peer1
     networks:
       - alpha
     depends_on:
-      - orderer.alpha.at
+      - solo.orderer.alpha.at
   
   cli-mars.alpha.at:
     container_name: cli-mars.alpha.at
@@ -100,8 +100,8 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/mars.alpha.at
     command: sh
     volumes:
-      - ./network/mars.alpha.at/peers/:/tmp/hyperledger/mars.alpha.at/peers
+      - ./mars.alpha.at/peers/:/tmp/hyperledger/mars.alpha.at/peers
       - ./chaincode:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
-      - ./network/mars.alpha.at/admin:/tmp/hyperledger/mars.alpha.at/admin
+      - ./mars.alpha.at/admin:/tmp/hyperledger/mars.alpha.at/admin
     networks:
       - alpha

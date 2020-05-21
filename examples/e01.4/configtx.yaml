@@ -17,13 +17,13 @@ Organizations:
     - &OrdererOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: orderer.alpha.at
+        Name: solo.orderer.alpha.at
   
         # ID to load the MSP definition as
         ID: OrdererMSP
   
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: network/orderer.alpha.at/orderer/msp
+        MSPDir: orderer.alpha.at/orderer/msp
   
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -47,7 +47,7 @@ Organizations:
         # ID to MarsMSP the MSP definition as
         ID: marsMSP
   
-        MSPDir: network/mars.alpha.at/msp
+        MSPDir: mars.alpha.at/msp
   
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -187,7 +187,7 @@ Orderer: &OrdererDefaults
   OrdererType: solo
 
   Addresses:
-      - orderer.alpha.at:7050
+      - solo.orderer.alpha.at:7050
 
   # Batch Timeout: The amount of time to wait before creating a batch
   BatchTimeout: 2s

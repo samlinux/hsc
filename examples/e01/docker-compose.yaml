@@ -30,7 +30,7 @@ services:
       service: peer
     environment:
       - CORE_PEER_ID=peer0.mars.universe.at
-      - CORE_PEER_ADDRESS= peer0.mars.universe.at:7051
+      - CORE_PEER_ADDRESS=peer0.mars.universe.at:7051
       - CORE_PEER_LOCALMSPID=MarsMSP
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/peer/
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT= peer0.mars.universe.at:7051

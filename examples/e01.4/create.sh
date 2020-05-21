@@ -2,24 +2,27 @@
 # copy and paste
 
 ## delete and start again
-rm -r ./network/orderer.alpha.at/orderer/genesis.block
-rm -r ./network/mars.alpha.at/peers/peer0/assets/channel.tx
+rm -r ./orderer.alpha.at/orderer/genesis.block
+rm -r ./mars.alpha.at/peers/peer0/assets/channel.tx
 
-sudo rm ./network/mars.alpha.at/peers/peer0/assets/channel1.block
-sudo rm ./network/mars.alpha.at/peers/peer1/assets/channel1.block
+sudo rm ./mars.alpha.at/peers/peer0/assets/channel1.block
+sudo rm ./mars.alpha.at/peers/peer1/assets/channel1.block
 
-sudo rm -R network/tls.alpha.at/ca 
+sudo rm -R ./tls.alpha.at/ca 
 
-sudo rm -R network/mars.alpha.at/admin
-sudo rm -R network/mars.alpha.at/ca
-sudo rm -R network/mars.alpha.at/msp
-sudo rm -R network/mars.alpha.at/peers
+sudo rm -R ./mars.alpha.at/admin
+sudo rm -R ./mars.alpha.at/ca
+sudo rm -R ./mars.alpha.at/msp
+sudo rm -R ./mars.alpha.at/peers
 
-sudo rm -R network/orderer.alpha.at/ca
-sudo rm -R network/orderer.alpha.at/msp
-sudo rm -R network/orderer.alpha.at/orderer
-sudo rm -R network/orderer.alpha.at/admin
-sudo rm -R network/orderer.alpha.at/ca
+sudo rm -R ./orderer.alpha.at/ca
+sudo rm -R ./orderer.alpha.at/msp
+sudo rm -R ./orderer.alpha.at/orderer
+sudo rm -R ./orderer.alpha.at/admin
+
+docker rm $(docker ps -a -f status=exited -f status=created -q)
+docker volume prune
+docker network rm e014_alpha
 ## -----------------------------
 
 
@@ -29,12 +32,13 @@ sudo rm -R network/orderer.alpha.at/ca
 # 3.) network/mars.alpha.at/create.sh
 
 # create genesis block
-configtxgen -profile OneOrgOrdererGenesis -channelID orderersyschannel -outputBlock ./network/orderer.alpha.at/orderer/genesis.block
+configtxgen -profile OneOrgOrdererGenesis -channelID orderersyschannel -outputBlock ./orderer.alpha.at/orderer/genesis.block
 
 # create channel
-configtxgen -profile OneOrgChannel -outputCreateChannelTx ./network/mars.alpha.at/peers/peer0/assets/channel.tx -channelID channel1
+configtxgen -profile OneOrgChannel -outputCreateChannelTx ./mars.alpha.at/peers/peer0/assets/channel.tx -channelID channel1
 
-docker-compose up
+docker-compose up -d 
+docker-compose logs --follow |grep -a "solo.orderer.alpha.at"
 
 ## create channel and join peer2 
 ### peer0
@@ -46,11 +50,12 @@ export CORE_PEER_MSPCONFIGPATH="/tmp/hyperledger/mars.alpha.at/admin/msp"
 export CORE_PEER_TLS_ROOTCERT_FILE="/tmp/hyperledger/mars.alpha.at/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
 export CORE_PEER_ADDRESS="peer0.mars.alpha.at:7051"
 
-peer channel create -c channel1 -f /tmp/hyperledger/mars.alpha.at/peers/peer0/assets/channel.tx -o orderer.alpha.at:7050 --outputBlock /tmp/hyperledger/mars.alpha.at/peers/peer0/assets/channel1.block --tls --cafile /tmp/hyperledger/mars.alpha.at/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+peer channel create -c channel1 -f /tmp/hyperledger/mars.alpha.at/peers/peer0/assets/channel.tx -o solo.orderer.alpha.at:7050 --outputBlock /tmp/hyperledger/mars.alpha.at/peers/peer0/assets/channel1.block --tls --cafile /tmp/hyperledger/mars.alpha.at/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+
 
 peer channel join -b /tmp/hyperledger/mars.alpha.at/peers/peer0/assets/channel1.block
 
-cp ./network/mars.alpha.at/peers/peer0/assets/channel1.block ./network/mars.alpha.at/peers/peer1/assets/channel1.block
+cp ./mars.alpha.at/peers/peer0/assets/channel1.block ./mars.alpha.at/peers/peer1/assets/channel1.block
 
 ### peer1
 docker exec -it cli-mars.alpha.at bash 
@@ -91,6 +96,11 @@ peer chaincode invoke -n sacc -c '{"Args":["set", "msg2","msg2"]}' -C channel1  
 peer chaincode query -n sacc -c '{"Args":["query","msg"]}' -C channel1 --tls
 
 # check certs
-openssl x509 -noout -text -in  network/mars.alpha.at/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
+openssl x509 -noout -text -in  ./mars.alpha.at/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
 
+# check if node is available
+curl -v telnet://orderer.alpha.at:7050
+
+
+openssl x509 -noout -text -in /tmp/hyperledger/mars.universe.at/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
 
