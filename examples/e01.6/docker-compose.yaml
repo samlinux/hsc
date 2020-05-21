@@ -115,5 +115,6 @@ services:
       - ./ca-mars.morgen.net/peers/:/tmp/hyperledger/mars.morgen.net/peers
       - ./chaincode:/opt/gopath/src/github.com/hyperledger/fabric-samples/chaincode
       - ./ca-mars.morgen.net/admin:/tmp/hyperledger/mars.morgen.net/admin
+      - ./ca-mars.morgen.net/users:/tmp/hyperledger/mars.morgen.net/users
     networks:
       - morgen

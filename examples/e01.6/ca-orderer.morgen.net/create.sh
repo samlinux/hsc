@@ -28,7 +28,7 @@ sudo chown $USER ca/server/crypto/fabric-ca-server-config.yaml
 
 # (1.5) we modify the docker start command from init to start
 # we starts the orderer-ca server
-docker-compose up
+docker-compose up -d
 
 # (1.6) we copy the tls-ca-cert file
 cp ./ca/server/crypto/ca-cert.pem ./ca/client/admin/tls-ca-cert.pem

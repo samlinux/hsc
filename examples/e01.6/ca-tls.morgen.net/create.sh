@@ -46,3 +46,6 @@ fabric-ca-client enroll -d -u https://ca-tls.morgen.net-admin:ca-tls.morgen.net-
 fabric-ca-client register -d --id.name peer0.mars.morgen.net --id.secret peer0PW --id.type peer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name peer1.mars.morgen.net --id.secret peer1PW --id.type peer -u https://0.0.0.0:7052
 fabric-ca-client register -d --id.name orderer.morgen.net --id.secret ordererPW --id.type orderer -u https://0.0.0.0:7052
+
+# test for application development
+fabric-ca-client register -d --id.name app.morgen.net --id.secret appPW --id.type client -u https://0.0.0.0:7052

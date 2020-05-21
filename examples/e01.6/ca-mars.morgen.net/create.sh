@@ -46,7 +46,10 @@ fabric-ca-client enroll -d -u https://ca-mars.morgen.net-admin:ca-mars-adminpw@0
 fabric-ca-client register -d --id.name peer0.mars.morgen.net --id.secret peer0PW --id.type peer -u https://0.0.0.0:7054
 fabric-ca-client register -d --id.name peer1.mars.morgen.net --id.secret peer1PW --id.type peer -u https://0.0.0.0:7054
 fabric-ca-client register -d --id.name admin-mars.morgen.net --id.secret marsAdminPW --id.type admin -u https://0.0.0.0:7054
-fabric-ca-client register -d --id.name user-mars.morgen.net --id.secret marsUserPW --id.type user -u https://0.0.0.0:7054
+fabric-ca-client register -d --id.name user2-mars.morgen.net --id.secret marsUserPW --id.type client -u https://0.0.0.0:7054
+
+## for abac chaincode
+fabric-ca-client register -d --id.affiliation org1.department1 --id.name user3-mars.morgen.net --id.secret marsUserPW --id.type client -u https://0.0.0.0:7054
 
 # -----------------------------------------------------------
 # (2) Setup mars.morgen.net-admin setup  
@@ -172,7 +175,6 @@ NodeOUs:
     Certificate: cacerts/mars.morgen.net-ca-cert.pem
     OrganizationalUnitIdentifier: orderer
     
-
 vi admin/msp/config.yaml
 NodeOUs:
   Enable: true
@@ -189,3 +191,5 @@ NodeOUs:
     Certificate: cacerts/0-0-0-0-7054.pem
     OrganizationalUnitIdentifier: orderer
     
+
+

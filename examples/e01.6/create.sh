@@ -59,7 +59,7 @@ configtxgen -profile OneOrgChannel -outputCreateChannelTx ./ca-mars.morgen.net/p
 docker-compose up -d
 
 # jump in to see the logs
-docker-compose logs --follow
+docker-compose logs -f
 
 # (7) we enter the mars-cli on peer0
 docker exec -it cli-mars.morgen.net bash 
@@ -94,12 +94,11 @@ peer channel join -b /tmp/hyperledger/mars.morgen.net/peers/peer1/assets/channel
 export CORE_PEER_TLS_ROOTCERT_FILE="/tmp/hyperledger/mars.morgen.net/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem"
 export CORE_PEER_ADDRESS="peer0.mars.morgen.net:7051"
 
-# (7.8) we install the chaincode on peer0
+# (7.8) we install the chaincode on peer0 
 peer chaincode install -n sacc -v 1.0 -p github.com/hyperledger/fabric-samples/chaincode/sacc/
 
 # you can check if the chaincode is installed
 peer chaincode list --installed
-
 
 # (7.9) we instantiate the chaincode (only on peer0)
 peer chaincode instantiate -n sacc -v 1.0 -o orderer.morgen.net:7050 -C channel1  -c '{"Args":["msg","hello blockchain"]}' --tls --cafile /tmp/hyperledger/mars.morgen.net/peers/peer0/tls-msp/tlscacerts/tls-0-0-0-0-7052.pem
